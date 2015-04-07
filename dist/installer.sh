@@ -1,11 +1,11 @@
 #!/usr/bin/expect
 
-spawn "./csgoserver install"
+spawn /home/vagrant/csgoserver install
 
-expect "Continue [y/N]"
-send "y "
-
-expect "Was the install successful? [y/N]"
-send "y "
+expect "Continue" { send "y\r" }
+expect "Was the install successful?"  { send "y\r" }
+expect "Do you want to install GameServerQuery?"  { send "y\r" }
+expect "Enter server name:"  { send "vagrant cs:go\r" }
+expect "Enter rcon password:"  { send "vagrant\r" }
 
 interact
