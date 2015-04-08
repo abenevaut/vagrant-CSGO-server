@@ -1,6 +1,8 @@
 # vagrant-CSGO-server
 Vagrant deployement for CSGO server
 
+/!\ Project in development
+
 # Install vagrant
 
 Go to https://www.vagrantup.com/downloads.html and download / install vagrant for your system.
