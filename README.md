@@ -25,4 +25,8 @@ clone this repository :
 
 Your server is now running on. To connect to your game server, use 127.0.0.1:27915 as server IP.
 
+### In game
+
+rcon_password vagrant
+
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/42antoine/vagrant-csgo-server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
