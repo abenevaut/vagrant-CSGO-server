@@ -9,7 +9,7 @@ expect "Was the install successful"
 send "y\r"
 
 expect "Do you want to install GameServerQuery"
-send "n\r"
+send "y\r"
 
 expect "Enter server name"
 send "vagrant cs:go\r"
