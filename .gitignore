@@ -5,3 +5,5 @@ private_key
 synced_folders
 action_provision
 .idea/
+*.sublime-project
+*.sublime-workspace
