@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "vagrant-debian78-64"
 
   # Box URL
-  config.vm.box_url = "http://cavaencoreparlerdebits.fr/pub/vagrant/boxes/vagrant-debian78-64/package.box"
+  config.vm.box_url = "http://pub.cvepdb.fr/vagrant/boxes/vagrant-debian78-64/package.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine.
@@ -24,6 +24,6 @@ Vagrant.configure(2) do |config|
   # config.vm.synced_folder "../data", "/vagrant_data"
 
   # Provision script
-  config.vm.provision "shell", path: "shell.sh"
+  config.vm.provision "shell", path: "shell.sh", privileged: false
 
 end
