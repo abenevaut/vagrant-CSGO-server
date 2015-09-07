@@ -7,3 +7,4 @@ action_provision
 .idea/
 *.sublime-project
 *.sublime-workspace
+.vagrant/machines/default/virtualbox/creator_uid

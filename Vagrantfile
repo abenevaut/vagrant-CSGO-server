@@ -16,6 +16,7 @@ Vagrant.configure(2) do |config|
 
   # Accessing "localhost:27915" will access port 27015 on the guest machine.
   config.vm.network "forwarded_port", guest: 27015, host: 27915
+  config.vm.network "forwarded_port", guest: 80, host: 8088
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
