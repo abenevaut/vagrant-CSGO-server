@@ -8,3 +8,5 @@ action_provision
 *.sublime-project
 *.sublime-workspace
 .vagrant/machines/default/virtualbox/creator_uid
+www/*
+csgo/*
