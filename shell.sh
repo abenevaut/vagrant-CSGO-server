@@ -46,7 +46,7 @@ sudo apt-get install phpmyadmin -y -qq > /dev/null
 
 echo -e "\n--- Setting up our MySQL user and db ---\n"
 mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
-mysql -uroot -p$DBPASSWD -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBUSER'@'localhost';"
+mysql -uroot -p$DBPASSWD -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBUSER'@'127.0.0.1';"
 mysql -uroot -p$DBPASSWD -e "FLUSH PRIVILEGES;"
 
 echo -e "\n--- IP Tables ---\n"
@@ -102,8 +102,52 @@ cd /home/vagrant/www
 git clone https://github.com/aaroniker/rokket.git rokket
 mv rokket/* . && mv rokket/.* . && rmdir rokket
 
+echo "<?php phpinfo(); ?>" > /home/vagrant/www/info.php
+
+echo "{
+    "name": "Rokket Panel",
+    "url": "http:\/\/",
+    "version": "0.4",
+    "setup": false,
+    "debug": false,
+    "cache": false,
+    "logs": 1,
+    "emailNot": null,
+    "email": "",
+    "ip": "",
+    "DB": {
+        "host": "",
+        "user": "root",
+        "password": "vagrant",
+        "database": "rokket",
+        "prefix": ""
+    },
+    "SSH": {
+        "ip": "127.0.0.1:22",
+        "user": "root",
+        "password": "vagrant"
+    },
+    "timezone": "Europe\/Berlin",
+    "logincookie": 86400,
+    "lang": "en_gb",
+    "layout": "default",
+    "user": []
+}
+" > /home/vagrant/www/lib/config.json
+
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; CREATE TABLE IF NOT EXISTS `addons` (`id` int(11) unsigned NOT NULL,`name` varchar(255) NOT NULL,`active` int(1) NOT NULL,`install` int(1) NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; CREATE TABLE IF NOT EXISTS `server` (`id` int(11) NOT NULL,`gameID` varchar(255) NOT NULL,`name` varchar(255) NOT NULL,`port` int(5) NOT NULL,`status` varchar(255) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; CREATE TABLE IF NOT EXISTS `user` (`id` int(11) NOT NULL,`firstname` varchar(255) NOT NULL,`name` varchar(255) NOT NULL,`username` varchar(255) NOT NULL,`email` varchar(255) NOT NULL,`password` varchar(255) NOT NULL,`salt` varchar(255) NOT NULL,`admin` int(11) NOT NULL,`perms` varchar(255) NOT NULL) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `addons` ADD PRIMARY KEY (`id`);"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `server` ADD PRIMARY KEY (`id`);"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `user` ADD PRIMARY KEY (`id`);"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `addons` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `server` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `user` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;"
+mysql -uroot -p$DBPASSWD -e "USE $DBNAME; INSERT INTO user (firstname,name,username,email,password,salt,admin,perms) VALUES('cvepdb','vagrant','42_vagrant','contact@cvepdb.fr',sha256('rootvagrantroot'),'root',1,'');"
+
 echo -e "\n--- Install CS:GO server ---\n"
 cd /home/vagrant
 wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
 chmod +x csgoserver
-/home/vagrant/csgoserver auto-install
+#/home/vagrant/csgoserver auto-install

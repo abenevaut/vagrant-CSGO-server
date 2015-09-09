@@ -47,7 +47,7 @@ Update the game server
 
 	Use the ./csgoserver script to start / update / stop your server.
 	
-	To connect to your game server, use 127.0.0.1:27918 as server IP.
+	To connect to your game server, use 127.0.0.1:27015 as server IP.
 
 	- rcon password : rconpassword
 	
