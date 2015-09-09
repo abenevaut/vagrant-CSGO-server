@@ -20,6 +20,13 @@ clone this repository :
 	$> git clone https://github.com/42antoine/vagrant-CSGO-server.git
 	$> cd vagrant-CSGO-server
 	$> vagrant up
+	$> ./csgoserver start
+
+Stop the game server
+	$> ./csgoserver stop
+
+Update the game server
+	$> ./csgoserver update
 
 ## Services
 
@@ -40,7 +47,7 @@ clone this repository :
 
 	Use the ./csgoserver script to start / update / stop your server.
 	
-	To connect to your game server, use 127.0.0.1:27915 as server IP.
+	To connect to your game server, use 127.0.0.1:27918 as server IP.
 
 	- rcon password : rconpassword
 	

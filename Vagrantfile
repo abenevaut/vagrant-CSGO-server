@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
   # within the machine from a port on the host machine.
 
   # Accessing "localhost:27915" will access port 27015 on the guest machine.
-  config.vm.network "forwarded_port", guest: 27015, host: 27915
+  config.vm.network "forwarded_port", guest: 27015, host: 27918
   config.vm.network "forwarded_port", guest: 80, host: 8088
 
   # Share an additional folder to the guest VM. The first argument is
@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "./www", "/home/vagrant/www"
-  config.vm.synced_folder "./csgo", "/home/vagrant/csgo"
+  config.vm.synced_folder "./csgo", "/home/vagrant/serverfiles/csgo"
 
   # Provision script
   config.vm.provision "shell", path: "shell.sh", privileged: false
