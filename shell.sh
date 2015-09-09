@@ -135,16 +135,16 @@ echo "{
 }
 " > /home/vagrant/www/lib/config.json
 
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; CREATE TABLE IF NOT EXISTS `addons` (`id` int(11) unsigned NOT NULL,`name` varchar(255) NOT NULL,`active` int(1) NOT NULL,`install` int(1) NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; CREATE TABLE IF NOT EXISTS `server` (`id` int(11) NOT NULL,`gameID` varchar(255) NOT NULL,`name` varchar(255) NOT NULL,`port` int(5) NOT NULL,`status` varchar(255) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; CREATE TABLE IF NOT EXISTS `user` (`id` int(11) NOT NULL,`firstname` varchar(255) NOT NULL,`name` varchar(255) NOT NULL,`username` varchar(255) NOT NULL,`email` varchar(255) NOT NULL,`password` varchar(255) NOT NULL,`salt` varchar(255) NOT NULL,`admin` int(11) NOT NULL,`perms` varchar(255) NOT NULL) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `addons` ADD PRIMARY KEY (`id`);"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `server` ADD PRIMARY KEY (`id`);"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `user` ADD PRIMARY KEY (`id`);"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `addons` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `server` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; ALTER TABLE `user` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;"
-mysql -uroot -p$DBPASSWD -e "USE $DBNAME; INSERT INTO user (firstname,name,username,email,password,salt,admin,perms) VALUES('cvepdb','vagrant','42_vagrant','contact@cvepdb.fr',sha256('rootvagrantroot'),'root',1,'');"
+mysql -uroot -p$DBPASSWD -e "CREATE TABLE IF NOT EXISTS $DBNAME.addons ( id  int(11) unsigned NOT NULL, name  varchar(255) NOT NULL, active  int(1) NOT NULL, install  int(1) NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
+mysql -uroot -p$DBPASSWD -e "CREATE TABLE IF NOT EXISTS $DBNAME.server ( id  int(11) NOT NULL, gameID  varchar(255) NOT NULL, name  varchar(255) NOT NULL, port  int(5) NOT NULL, status  varchar(255) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
+mysql -uroot -p$DBPASSWD -e "CREATE TABLE IF NOT EXISTS $DBNAME.user ( id  int(11) NOT NULL, firstname  varchar(255) NOT NULL, name  varchar(255) NOT NULL, username  varchar(255) NOT NULL, email  varchar(255) NOT NULL, password  varchar(255) NOT NULL, salt  varchar(255) NOT NULL, admin  int(11) NOT NULL, perms  varchar(255) NOT NULL) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
+mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.addons ADD PRIMARY KEY ( id );"
+mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.server ADD PRIMARY KEY ( id );"
+mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.user ADD PRIMARY KEY ( id );"
+mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.addons MODIFY  id  int(11) NOT NULL AUTO_INCREMENT;"
+mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.server MODIFY  id  int(11) NOT NULL AUTO_INCREMENT;"
+mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.user MODIFY  id  int(11) NOT NULL AUTO_INCREMENT;"
+mysql -uroot -p$DBPASSWD -e "INSERT INTO $DBNAME.user (firstname,name,username,email,password,salt,admin,perms) VALUES('cvepdb','vagrant','42_vagrant','contact@cvepdb.fr',sha2('rootvagrantroot', 256),'root',1,'');"
 
 echo -e "\n--- Install CS:GO server ---\n"
 cd /home/vagrant
