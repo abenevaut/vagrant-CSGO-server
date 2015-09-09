@@ -150,4 +150,4 @@ echo -e "\n--- Install CS:GO server ---\n"
 cd /home/vagrant
 wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
 chmod +x csgoserver
-#/home/vagrant/csgoserver auto-install
+/home/vagrant/csgoserver auto-install
