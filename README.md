@@ -55,5 +55,8 @@ Update the game server
 	
 	On project root directory, you can see "www" and "csgo" directories. These folders are shared from VM, use it to share game server configuration or website with the VM.
 
-	
+## See also
+
+https://github.com/dgibbs64/linuxgsm/wiki/Usage
+
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/42antoine/vagrant-csgo-server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

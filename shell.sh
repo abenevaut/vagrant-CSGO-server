@@ -8,47 +8,48 @@ DBPASSWD=vagrant
 
 echo -e "\n--- Processing server installation ---\n"
 
+echo -e "\n--- Linux update ---\n"
 sudo apt-get update -y -qq > /dev/null
 sudo apt-get upgrade -y -qq > /dev/null
 
-# i386 packages
+echo -e "\n--- libc6-i386 & lib32gcc1 - i386 packages ---\n"
 sudo dpkg --add-architecture i386 > /dev/null
 sudo apt-get update -y -qq > /dev/null
 sudo apt-get install libc6-i386 lib32gcc1 -y -qq > /dev/null
 
-# i386 packages
+echo -e "\n--- ia32-libs - i386 packages ---\n"
 sudo dpkg --add-architecture i386 > /dev/null
 sudo apt-get update -y -qq > /dev/null
 sudo aptitude install ia32-libs -y -q=9 > /dev/null
 
-sudo apt-get install gdb tmux expect apache2 php5-common libapache2-mod-php5 php5-cli git -y -qq > /dev/null
+echo -e "\n--- Binaries (gdb, tmux, git ...) ---\n"
+sudo apt-get install gdb tmux git -y -qq > /dev/null
 
-# PHPmyadmin
-#echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | sudo debconf-set-selections
-#echo "phpmyadmin phpmyadmin/app-password-confirm password $DBPASSWD" | sudo debconf-set-selections
-#echo "phpmyadmin phpmyadmin/mysql/admin-pass password $DBPASSWD" | sudo debconf-set-selections
-#echo "phpmyadmin phpmyadmin/mysql/app-pass password $DBPASSWD" | sudo debconf-set-selections
-#echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect none" | sudo debconf-set-selections
-#sudo apt-get -y install phpmyadmin > /dev/null 2>&1
+echo -e "\n--- MySQL ---\n"
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password $DBPASSWD'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $DBPASSWD'
+sudo apt-get install mysql-server -y -qq > /dev/null
 
-# Force dependencies
+echo -e "\n--- Apache2 & PHP5 ---\n"
+sudo apt-get install apache2 php5-common libapache2-mod-php5 php5-cli php5-mysql -y -qq > /dev/null
+
+echo -e "\n--- Force dependencies ---\n"
 sudo apt-get install -f -y -qq
 
-/*
- * Database config
- */
+echo -e "\n--- PHPMyAdmin ---\n"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password $DBPASSWD"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $DBPASSWD"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $DBPASSWD"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2"
+sudo apt-get install phpmyadmin -y -qq > /dev/null
 
 echo -e "\n--- Setting up our MySQL user and db ---\n"
-#mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
-#mysql -uroot -p$DBPASSWD -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBUSER'@'localhost';"
-#mysql -uroot -p$DBPASSWD -e "FLUSH PRIVILEGES;"
-
-/*
- * IPTables
- */
+mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
+mysql -uroot -p$DBPASSWD -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBUSER'@'localhost';"
+mysql -uroot -p$DBPASSWD -e "FLUSH PRIVILEGES;"
 
 echo -e "\n--- IP Tables ---\n"
-
 echo "*filter
 
 -P INPUT DROP
@@ -80,7 +81,7 @@ echo "*filter
 # !Steam Rules -----
 #
 
--A INPUT -j LOG --log-prefix 'paquet IPv4 inattendu'
+-A INPUT -j LOG --log-prefix \"paquet IPv4 inattendu\"
 -A INPUT -j REJECT
 
 COMMIT
@@ -90,14 +91,10 @@ COMMIT
 
 *mangle
 COMMIT" > /home/vagrant/iptables.up.rules
-
 sudo cp /home/vagrant/iptables.up.rules /etc/iptables.up.rules
 sudo iptables-restore < /etc/iptables.up.rules
 
-/*
- * Webinterface
- */
-
+echo -e "\n--- Game server Webinterface ---\n"
 sudo rm -rf /var/www
 cd /home/vagrant
 sudo ln -s /home/vagrant/www /var/www
@@ -105,16 +102,8 @@ cd /home/vagrant/www
 git clone https://github.com/aaroniker/rokket.git rokket
 mv rokket/* . && mv rokket/.* . && rmdir rokket
 
-/*
- * Game server
- */
-
 echo -e "\n--- Install CS:GO server ---\n"
-
 cd /home/vagrant
-
 wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
 chmod +x csgoserver
-
 /home/vagrant/csgoserver auto-install
-
