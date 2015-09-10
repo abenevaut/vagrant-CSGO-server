@@ -47,7 +47,7 @@ Your server is now running on !
 ### Apache2, PHP
 
 On the vagrant vm, a web server is installed. You can access it via 127.0.0.1:8088
-The "Rokket" game server manager is installed as default website.
+The "Rokket" game server manager is installed as default website (https://github.com/aaroniker/rokket).
 You can also use phpmyadmin at this address 127.0.0.1:8088/phpmyadmin
 
 All website content is available from you computer in : vagrant-CSGO-server/www *(1)
