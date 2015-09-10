@@ -33,7 +33,7 @@ Update the game server
 
 The "debug" mode functionality - for moders, run server instance to debug transaction
 
-	$> ./csgoserver debut
+	$> ./csgoserver debug
 
 ## Services
 
