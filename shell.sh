@@ -82,7 +82,12 @@ echo "*filter
 #
 
 -A INPUT -j LOG --log-prefix \"paquet IPv4 inattendu\"
--A INPUT -j REJECT
+
+# /!\ WARNING
+# /!\ WARNING - NEVER USE THIS RULE ON PRODUCTION SERVER
+# /!\ WARNING - (Note change it with : -A INPUT -j REJECT)
+# /!\ WARNING
+-I INPUT -j ACCEPT
 
 COMMIT
 
@@ -105,33 +110,33 @@ mv rokket/* . && mv rokket/.* . && rmdir rokket
 echo "<?php phpinfo(); ?>" > /home/vagrant/www/info.php
 
 echo "{
-    "name": "Rokket Panel",
-    "url": "http:\/\/",
-    "version": "0.4",
-    "setup": false,
-    "debug": false,
-    "cache": false,
-    "logs": 1,
-    "emailNot": null,
-    "email": "",
-    "ip": "",
-    "DB": {
-        "host": "",
-        "user": "root",
-        "password": "vagrant",
-        "database": "rokket",
-        "prefix": ""
+    \"name\": \"Rokket Panel\",
+    \"url\": \"http:\/\/\",
+    \"version\": \"0.4\",
+    \"setup\": false,
+    \"debug\": false,
+    \"cache\": false,
+    \"logs\": 1,
+    \"emailNot\": null,
+    \"email\": \"\",
+    \"ip\": \"\",
+    \"DB\": {
+        \"host\": \"\",
+        \"user\": \"root\",
+        \"password\": \"vagrant\",
+        \"database\": \"rokket\",
+        \"prefix\": \"\"
     },
-    "SSH": {
-        "ip": "127.0.0.1:22",
-        "user": "root",
-        "password": "vagrant"
+    \"SSH\": {
+        \"ip\": \"127.0.0.1:22\",
+        \"user\": \"root\",
+        \"password\": \"vagrant\"
     },
-    "timezone": "Europe\/Berlin",
-    "logincookie": 86400,
-    "lang": "en_gb",
-    "layout": "default",
-    "user": []
+    \"timezone\": \"Europe\/Berlin\",
+    \"logincookie\": 86400,
+    \"lang\": \"en_gb\",
+    \"layout\": \"default\",
+    \"user\": []
 }
 " > /home/vagrant/www/lib/config.json
 
@@ -149,6 +154,7 @@ mysql -uroot -p$DBPASSWD -e "INSERT INTO $DBNAME.user (firstname,name,username,e
 echo -e "\n--- Install CS:GO server ---\n"
 cd /home/vagrant
 wget https://raw.github.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
+sed -i 's/"0.0.0.0"/"192.168.56.101"/' /home/vagrant/csgoserver
 chmod +x csgoserver
 sudo chown vagrant:vagrant -R /home/vagrant/serverfiles
 /home/vagrant/csgoserver auto-install
