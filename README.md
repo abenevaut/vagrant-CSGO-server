@@ -1,9 +1,7 @@
 # vagrant-CSGO-server
 Vagrant deployement for CSGO game server. Use this tool to easily start new addons development or for fun!
 
-###### /!\ Project for developers - never use this project to make online game server!
-
-master [![Build Status](https://travis-ci.org/42antoine/vagrant-CSGO-server.svg?branch=master)](https://travis-ci.org/42antoine/vagrant-CSGO-server) | dev [![Build Status](https://travis-ci.org/42antoine/vagrant-CSGO-server.svg?branch=dev)](https://travis-ci.org/42antoine/vagrant-CSGO-server)
+###### /!\ Project for developers - never use this project to make online game server! [![Build Status](https://travis-ci.org/42antoine/vagrant-CSGO-server.svg?branch=master)](https://travis-ci.org/42antoine/vagrant-CSGO-server)
 
 # Install vagrant
 
