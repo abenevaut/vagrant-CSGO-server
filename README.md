@@ -3,6 +3,8 @@ Vagrant deployement for CSGO game server. Use this tool to easily start new addo
 
 ###### /!\ Project for developers - never use this project to make online game server!
 
+master [![Build Status](https://travis-ci.org/42antoine/vagrant-CSGO-server.svg?branch=master)](https://travis-ci.org/42antoine/vagrant-CSGO-server) | dev [![Build Status](https://travis-ci.org/42antoine/vagrant-CSGO-server.svg?branch=dev)](https://travis-ci.org/42antoine/vagrant-CSGO-server)
+
 # Install vagrant
 
 Go to https://www.vagrantup.com/downloads.html and download / install vagrant for your system.

@@ -1,1 +1,1 @@
-script: sudo ./shell.sh travis
+script: ./shell.sh travis
