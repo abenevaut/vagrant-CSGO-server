@@ -1,3 +1,5 @@
+sudo: true
+anguage: shell
 before_script:
  - chmod +x shell.sh
 script: ./shell.sh travis
