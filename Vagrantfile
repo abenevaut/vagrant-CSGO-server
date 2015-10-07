@@ -6,10 +6,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "vagrant-debian78-64"
-
-  # Box URL
-  config.vm.box_url = "http://pub.cvepdb.fr/vagrant/boxes/vagrant-debian78-64/package.box"
+  config.vm.box = "debian/jessie64"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine.
