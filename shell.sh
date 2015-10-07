@@ -4,6 +4,9 @@
 TRAVIS=$1
 
 if [[ -z "${TRAVIS}" ]]; then
+
+  export DEBIAN_FRONTEND=noninteractive
+
   mkdir ~/www
   mkdir -p ~/serverfiles/csgo
 fi
@@ -17,29 +20,29 @@ DBPASSWD=vagrant
 echo -e "\n--- Processing server installation ---\n"
 
 echo -e "\n--- Linux update ---\n"
-sudo apt-get update -y
-sudo apt-get upgrade -y
+sudo apt-get update -y -q
+sudo apt-get upgrade -y -q
 
 echo -e "\n--- libc6-i386 & lib32gcc1 - i386 packages ---\n"
 sudo dpkg --add-architecture i386
-sudo apt-get update -y
-sudo apt-get install libc6-i386 lib32gcc1 -y
+sudo apt-get update -y -q
+sudo apt-get install libc6-i386 lib32gcc1 -y -q
 
 echo -e "\n--- ia32-libs - i386 packages ---\n"
 sudo dpkg --add-architecture i386
-sudo apt-get update -y
-sudo aptitude install ia32-libs -y
+sudo apt-get update -y -q
+sudo aptitude install ia32-libs -y -q
 
 echo -e "\n--- Binaries (gdb, tmux, git ...) ---\n"
-sudo apt-get install gdb tmux git -y
+sudo apt-get install gdb tmux git -y -q
 
 echo -e "\n--- MySQL ---\n"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $DBPASSWD"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $DBPASSWD"
-sudo apt-get install mysql-server -y
+sudo apt-get install mysql-server -y -q
 
 echo -e "\n--- Apache2 & PHP5 ---\n"
-sudo apt-get install apache2-mpm-prefork apache2 php5-common libapache2-mod-php5 php5-cli php5-mysql -y
+sudo apt-get install apache2-mpm-prefork apache2 php5-common libapache2-mod-php5 php5-cli php5-mysql -y -q
 
 echo -e "\n--- Setting up our MySQL user and db ---\n"
 mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
@@ -57,7 +60,7 @@ sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm pass
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $DBPASSWD"
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $DBPASSWD"
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2"
-sudo apt-get install phpmyadmin -y
+sudo apt-get install phpmyadmin -y -q
 
 echo -e "\n--- IP Tables ---\n"
 echo "*filter
