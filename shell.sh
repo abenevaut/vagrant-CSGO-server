@@ -14,6 +14,16 @@ DBPASSWD=vagrant
 
 if [[ -z "${TRAVIS}" ]]; then
 
+  echo -e "\n--- Processing server installation ---\n"
+
+  APTGET="sudo apt-get -y -q=9"
+
+  echo -e "\n--- Linux update ---\n"
+  eval $APTGET update
+  eval $APTGET upgrade
+
+else
+
   echo -e "\n--- Processing travis installation ---\n"
 
   export DEBIAN_FRONTEND=noninteractive
@@ -25,16 +35,6 @@ if [[ -z "${TRAVIS}" ]]; then
 
   echo -e "\n--- Travis linux update ---\n"
   eval $APTGET update
-
-else
-
-  echo -e "\n--- Processing server installation ---\n"
-
-  APTGET="sudo apt-get -y -q=9"
-
-  echo -e "\n--- Linux update ---\n"
-  eval $APTGET update
-  eval $APTGET upgrade
 
 fi
 
