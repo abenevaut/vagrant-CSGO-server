@@ -1,9 +1,20 @@
 #!/bin/bash
 
+
 # DEBUG - Travis-ci
 TRAVIS=$1
 
+
+# Variables
+DBHOST=localhost
+DBNAME=rokket
+DBUSER=root
+DBPASSWD=vagrant
+
+
 if [[ -z "${TRAVIS}" ]]; then
+
+  echo -e "\n--- Processing travis installation ---\n"
 
   export DEBIAN_FRONTEND=noninteractive
 
@@ -12,23 +23,20 @@ if [[ -z "${TRAVIS}" ]]; then
 
   APTGET="sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confnew\""
 
+  echo -e "\n--- Travis linux update ---\n"
+  eval $APTGET update
+
 else
+
+  echo -e "\n--- Processing server installation ---\n"
 
   APTGET="sudo apt-get -y -q=9"
 
+  echo -e "\n--- Linux update ---\n"
+  eval $APTGET update
+  eval $APTGET upgrade
+
 fi
-
-# Variables
-DBHOST=localhost
-DBNAME=rokket
-DBUSER=root
-DBPASSWD=vagrant
-
-echo -e "\n--- Processing server installation ---\n"
-
-echo -e "\n--- Linux update ---\n"
-eval $APTGET update
-eval $APTGET upgrade
 
 echo -e "\n--- libc6-i386 & lib32gcc1 - i386 packages ---\n"
 sudo dpkg --add-architecture i386
