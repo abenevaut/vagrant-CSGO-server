@@ -19,8 +19,6 @@ if [[ -z "${TRAVIS}" ]]; then
   APTGET="sudo apt-get -y -q=9"
 
   echo -e "\n--- Linux update ---\n"
-  eval $APTGET update
-  eval $APTGET upgrade
 
 else
 
@@ -34,9 +32,11 @@ else
   APTGET="sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confnew\""
 
   echo -e "\n--- Travis linux update ---\n"
-  eval $APTGET update
 
 fi
+
+eval $APTGET update
+eval $APTGET upgrade
 
 echo -e "\n--- libc6-i386 & lib32gcc1 - i386 packages ---\n"
 sudo dpkg --add-architecture i386
