@@ -1,0 +1,3 @@
+RunVagrant:
+  script:
+  - vagrant up
