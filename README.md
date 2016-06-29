@@ -35,10 +35,6 @@ The "debug" mode functionality - for moders, run server instance to debug transa
 
 	$> ./csgoserver debug
 
-## Services
-
-Your server is now running on !
-
 ### MySQL
 
 	- username : root
@@ -46,7 +42,7 @@ Your server is now running on !
 	
 ### Apache2, PHP
 
-On the vagrant vm, a web server is installed. You can access it via 127.0.0.1:8088
+On the vagrant vm, a web server is installed. You can access it via 127.0.0.1:8088.
 You can also use phpmyadmin at this address 127.0.0.1:8088/phpmyadmin
 
 All website content is available from you computer in : vagrant-CSGO-server/www *(1)
