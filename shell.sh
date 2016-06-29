@@ -7,7 +7,7 @@ TRAVIS=$1
 
 # Variables
 DBHOST=localhost
-DBNAME=rokket
+DBNAME=vagrant
 DBUSER=root
 DBPASSWD=vagrant
 
@@ -127,57 +127,13 @@ COMMIT" > /home/vagrant/iptables.up.rules
 sudo cp /home/vagrant/iptables.up.rules /etc/iptables.up.rules
 sudo iptables-restore < /etc/iptables.up.rules
 
-echo -e "\n--- Game server Webinterface ---\n"
+echo -e "\n--- Web server configuration ---\n"
 sudo rm -rf /var/www
 cd /home/vagrant
 sudo ln -s /home/vagrant/www /var/www
 cd /home/vagrant/www
-git clone https://github.com/aaroniker/rokket.git rokket
-mv rokket/* . && mv rokket/.* . && rmdir rokket
 
 echo "<?php phpinfo(); ?>" > /home/vagrant/www/info.php
-
-echo "{
-    \"name\": \"Rokket Panel\",
-    \"url\": \"http:\/\/\",
-    \"version\": \"0.4\",
-    \"setup\": false,
-    \"debug\": false,
-    \"cache\": false,
-    \"logs\": 1,
-    \"emailNot\": null,
-    \"email\": \"\",
-    \"ip\": \"\",
-    \"DB\": {
-        \"host\": \"\",
-        \"user\": \"root\",
-        \"password\": \"vagrant\",
-        \"database\": \"rokket\",
-        \"prefix\": \"\"
-    },
-    \"SSH\": {
-        \"ip\": \"127.0.0.1:22\",
-        \"user\": \"root\",
-        \"password\": \"vagrant\"
-    },
-    \"timezone\": \"Europe\/Berlin\",
-    \"logincookie\": 86400,
-    \"lang\": \"en_gb\",
-    \"layout\": \"default\",
-    \"user\": []
-}
-" > /home/vagrant/www/lib/config.json
-
-mysql -uroot -p$DBPASSWD -e "CREATE TABLE IF NOT EXISTS $DBNAME.addons ( id  int(11) unsigned NOT NULL, name  varchar(255) NOT NULL, active  int(1) NOT NULL, install  int(1) NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
-mysql -uroot -p$DBPASSWD -e "CREATE TABLE IF NOT EXISTS $DBNAME.server ( id  int(11) NOT NULL, gameID  varchar(255) NOT NULL, name  varchar(255) NOT NULL, port  int(5) NOT NULL, status  varchar(255) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
-mysql -uroot -p$DBPASSWD -e "CREATE TABLE IF NOT EXISTS $DBNAME.user ( id  int(11) NOT NULL, firstname  varchar(255) NOT NULL, name  varchar(255) NOT NULL, username  varchar(255) NOT NULL, email  varchar(255) NOT NULL, password  varchar(255) NOT NULL, salt  varchar(255) NOT NULL, admin  int(11) NOT NULL, perms  varchar(255) NOT NULL) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
-mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.addons ADD PRIMARY KEY ( id );"
-mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.server ADD PRIMARY KEY ( id );"
-mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.user ADD PRIMARY KEY ( id );"
-mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.addons MODIFY  id  int(11) NOT NULL AUTO_INCREMENT;"
-mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.server MODIFY  id  int(11) NOT NULL AUTO_INCREMENT;"
-mysql -uroot -p$DBPASSWD -e "ALTER TABLE $DBNAME.user MODIFY  id  int(11) NOT NULL AUTO_INCREMENT;"
-mysql -uroot -p$DBPASSWD -e "INSERT INTO $DBNAME.user (firstname,name,username,email,password,salt,admin,perms) VALUES('cvepdb','vagrant','42_vagrant','contact@cvepdb.fr',sha2('rootvagrantroot', 256),'root',1,'');"
 
 echo -e "\n--- Install CS:GO server ---\n"
 cd /home/vagrant
