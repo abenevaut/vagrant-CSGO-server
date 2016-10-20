@@ -49,7 +49,7 @@ eval $APTGET update
 sudo aptitude -y -q install ia32-libs
 
 echo -e "\n--- Binaries (gdb, tmux, git ...) ---\n"
-eval $APTGET install gdb tmux git
+eval $APTGET install gdb tmux git curl
 
 echo -e "\n--- MySQL ---\n"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $DBPASSWD"
