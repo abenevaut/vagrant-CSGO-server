@@ -16,39 +16,39 @@ if [[ -z "${TRAVIS}" ]]; then
 
   echo -e "\n--- Processing server installation ---\n"
 
-
-  if [ -f /etc/csgo_env_disk_added_date ]
-  then
-     echo "Stratos runtime already provisioned so exiting."
-     exit 0
-  else
-
-    echo "Mounting disk extension (15Go)."
-
-    sudo fdisk -u /dev/sdb <<EOF
-n
-p
-1
-
-
-t
-8e
-w
-EOF
-
-    pvcreate /dev/sdb1
-    vgextend VolGroup /dev/sdb1
-    lvextend -L +30G /dev/VolGroup/lv_root
-    resize2fs /dev/VolGroup/lv_root
-
-    date > /etc/csgo_env_disk_added_date
-
-  fi
-
-
   APTGET="sudo apt-get -y -q=9"
 
   echo -e "\n--- Linux update ---\n"
+
+#  if [ -f /home/vagrant/csgo_env_disk_added_date ]
+#  then
+#     echo "Stratos runtime already provisioned so exiting."
+#     exit 0
+#  else
+
+#    echo -e "Mounting disk extension (15Go)."
+
+#    sudo apt-get install lvm2 system-config-lvm -y -q=9
+
+#    sudo fdisk -u /dev/sdb <<EOF
+#n
+#p
+#2
+
+
+#t
+#8e
+#w
+#EOF
+
+#    sudo pvcreate /dev/sdb1
+#    sudo vgextend VolGroup /dev/sdb1
+#    sudo lvextend -L +15G /dev/VolGroup/lv_root
+#    sudo resize2fs /dev/VolGroup/lv_root
+
+#    sudo date > /home/vagrant/csgo_env_disk_added_date
+
+#  fi
 
 else
 
