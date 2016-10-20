@@ -10,3 +10,4 @@ action_provision
 .vagrant/machines/default/virtualbox/creator_uid
 www/*
 csgo/*
+disk.vdi
