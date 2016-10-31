@@ -5,7 +5,7 @@
 Vagrant.configure(2) do |config|
 
   config.vm.box = "vagrant-debian_8.6.0-64"
-  config.vm.box_url = "http://pub.cvepdb.fr/vagrant-debian_8.6.0-64/package.box"
+  config.vm.box_url = "http://pub.cvepdb.fr/vagrant-debian_8.6.0-64.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine.
