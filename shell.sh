@@ -84,7 +84,7 @@ eval $APTGET install gdb tmux git curl
 echo -e "\n--- MySQL ---\n"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $DBPASSWD"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $DBPASSWD"
-eval $APTGET install mysql-server
+eval $APTGET install mysql-server lib32z1
 
 echo -e "\n--- Setting up our MySQL user and db ---\n"
 mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
@@ -164,6 +164,35 @@ sudo ln -s /home/vagrant/www /var/www
 cd /home/vagrant/www
 
 echo "<?php phpinfo(); ?>" > /home/vagrant/www/info.php
+
+echo -e "\n--- PHP7.0.13 for ebot ---\n"
+cd /usr/local/src
+git clone https://github.com/php/php-src.git php-src
+git clone https://github.com/krakjoe/pthreads php-src/ext/pthreads
+cd php-src
+git checkout php-7.0.13
+./buildconf --force
+./configure --prefix=/usr --with-config-file-path=/etc --enable-maintainer-zts --enable-pthreads=d --with-openssl --enable-sockets
+make
+make test
+make install
+cp php.ini-development /etc/php.ini
+cp php.ini-development /etc/php-cli.ini
+echo "extension=pthreads.so" > /etc/php-cli.ini
+/usr/bin/php -v
+/usr/bin/php -m
+cd -
+
+echo -e "\n--- Composer ---\n"
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === 'aa96f26c2b67226a324c27919f1eb05f21c248b987e6195cad9690d5c1ff713d53020a02ac8c217dbf90a7eacc9d141d') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+mv composer.phar /usr/local/bin/composer
+composer --version
+
+echo -e "\n--- Composer ---\n"
+apt-get install npm nodejs
 
 echo -e "\n--- Install CS:GO server ---\n"
 cd /home/vagrant
