@@ -176,9 +176,11 @@ git checkout php-7.0.13
 make
 make test
 make install
-cp php.ini-production /etc/php.ini
-/usr/bin/php -v
-/usr/bin/php -m
+mkdir -p /etc/php/php-pthreads
+cp php.ini-production /etc/php/php-pthreads/php.ini
+ln -s /usr/php-pthreads/bin/php php
+/usr/php-pthreads/bin/php -v
+/usr/php-pthreads/bin/php -m
 cd -
 
 echo -e "\n--- Composer ---\n"
