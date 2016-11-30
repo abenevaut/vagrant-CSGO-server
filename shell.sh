@@ -172,13 +172,11 @@ git clone https://github.com/krakjoe/pthreads php-src/ext/pthreads
 cd php-src
 git checkout php-7.0.13
 ./buildconf --force
-./configure --prefix=/usr --with-config-file-path=/etc --enable-maintainer-zts --enable-pthreads=d --with-openssl --enable-sockets
+./configure --prefix='/usr/php-pthreads' --with-libdir='/lib/x86_64-linux-gnu' --enable-pthreads=shared --with-config-file-path='/etc/php/php-pthreads' --enable-maintainer-zts --enable-pthreads=d --with-openssl --enable-sockets
 make
 make test
 make install
-cp php.ini-development /etc/php.ini
-cp php.ini-development /etc/php-cli.ini
-echo "extension=pthreads.so" > /etc/php-cli.ini
+cp php.ini-production /etc/php.ini
 /usr/bin/php -v
 /usr/bin/php -m
 cd -
