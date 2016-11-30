@@ -166,22 +166,15 @@ cd /home/vagrant/www
 echo "<?php phpinfo(); ?>" > /home/vagrant/www/info.php
 
 echo -e "\n--- PHP7.0.13 for ebot ---\n"
-cd /usr/local/src
-git clone https://github.com/php/php-src.git php-src
-git clone https://github.com/krakjoe/pthreads php-src/ext/pthreads
-cd php-src
-git checkout php-7.0.13
-./buildconf --force
-./configure --prefix='/usr/php-pthreads' --with-libdir='/lib/x86_64-linux-gnu' --enable-pthreads=shared --with-config-file-path='/etc/php/php-pthreads' --enable-maintainer-zts --enable-pthreads=d --with-openssl --enable-sockets
-make
-make test
-make install
-mkdir -p /etc/php/php-pthreads
-cp php.ini-production /etc/php/php-pthreads/php.ini
-ln -s /usr/php-pthreads/bin/php php
-/usr/php-pthreads/bin/php -v
-/usr/php-pthreads/bin/php -m
-cd -
+apt-get install systemtap-sdt-dev libldb-dev libldap2-dev libldb-dev libsasl2-dev build-essential curl git python-setuptools ruby
+ln -fs /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install)"
+PATH="$HOME/.linuxbrew/bin:$PATH"
+echo 'export PATH="$HOME/.linuxbrew/bin:$PATH"' >>~/.bash_profile
+brew install homebrew/php/php70
+brew install homebrew/php/php70-pthreads
+brew install homebrew/php/php70-sockets
+brew install homebrew/php/php70-mcrypt
 
 echo -e "\n--- Composer ---\n"
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
